@@ -3,10 +3,8 @@ $edit = isset($_GET['edit']) ? $_GET['edit'] : '';
 $fetch_error = false;
 if (is_numeric($edit) && !$_POST) {
 
-        $conn = new mysqli('localhost','root','root','fullstack'); // database conestion
-            if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error); //conection check
-            }
+        // connect to the database
+        include('connect.php');
             
         $data = $conn->query("SELECT * FROM `blog` WHERE id=$edit");//select from table blog
             if($data && $data->num_rows >0){
@@ -16,9 +14,9 @@ if (is_numeric($edit) && !$_POST) {
                 $content = $row['content'];
                 $success =  isset($_GET['success']) ? $_GET['success'] : '';
                 $error = array("title" => "","author" => "", "content" => "", "database" => "");
-    }else{
-        $fetch_error = true;
-    }
+            }else{
+                $fetch_error = true;
+            }
 
 } else{
     $title = isset($_POST['title']) ? $_POST['title'] : '';
@@ -30,30 +28,30 @@ if (is_numeric($edit) && !$_POST) {
   if($_POST) {
 	  if(strlen($title) == 0 || strlen($author) == 0 || strlen($content) == 0){
 		  if(strlen($title) == 0){
-					$error['title'] = 'Error';
+					$error['title'] = 'ERROR: Please fill in all required fields!';
 		  }if(strlen($author) == 0){
-					$error['author'] = 'Error';	
+					$error['author'] = 'ERROR: Please fill in all required fields!';	
 		  }if(strlen($content) == 0) {
-					$error['content'] = 'Error';
+					$error['content'] = 'ERROR: Please fill in all required fields!';
 		  }
 	  }else {		  
 				
-            $conn = new mysqli('localhost','root','root','fullstack'); // database conestion
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+            // connect to the database
+            include('connect.php');
             
             $title = $conn->real_escape_string($title);
             $author = $conn->real_escape_string($author);
             $content = $conn->real_escape_string($content);
 
-                if(is_numeric($edit)){
+               if(is_numeric($edit) && !$_POST) {
+                    
                         $saved = $conn->query("UPDATE `blog` SET `title`='$title', `author`='$author', `content`='$content' 
-                        WHERE id=$edit");    
-                }else{
-                        $saved = $conn->query("INSERT INTO `blog`(`title`, `author`, `content`) 
-                        VALUES ('$title','$author','$content')");
-                }
+                        WHERE id='$edit'"); 
+                           
+                 }else{
+                      $saved = $conn->query("INSERT INTO `blog`(`title`, `author`, `content`) 
+                       VALUES ('$title','$author','$content')");
+               }
 
             if($saved){
                 header('Location:' . $_SERVER['PHP_SELF'] . '?success=OK'); 
