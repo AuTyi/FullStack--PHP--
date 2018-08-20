@@ -3,5 +3,5 @@ CREATE TABLE feedback(
     name VARCHAR(70) NOT NULL,
     email VARCHAR(70) NOT NULL,
     feedback TEXT NOT NULL,
-    date TIMESTAMP
+    date TIMESTAMP 
 )

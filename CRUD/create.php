@@ -74,8 +74,8 @@
 		Author <span><?php echo $error['author']; ?></span><input type="text" name="author"
 			value="<?php echo $author; ?>"/>
 			        
-		Content <span><?php echo $error['content']; ?></span><textarea name="content"
-			value="<?php echo $feedback;?>"></textarea>
+		Content <span><?php echo $error['content']; ?></span><textarea name="content">
+			<?php echo $content;?></textarea>
 			
 		<?php echo $error['database']; ?>
         <input type="submit" value="Save"/>
