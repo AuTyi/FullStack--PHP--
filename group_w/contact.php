@@ -19,7 +19,6 @@
 			}
 			.popup {
 				color: red;
-				font-weight: bold;
 				}
 			.question {
 				color:black;
@@ -29,12 +28,6 @@
 			}	
 			
 		</style>
-		<!-- Remember to include jQuery :) -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-
-		<!-- jQuery Modal -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 	</head>	
 	<body>
 <!-- Aurimas section navigation start-->
@@ -124,7 +117,8 @@ if($_POST){
         	//testing for SQL injection;        
         $name = $conn->real_escape_string($name);
 		$email = $conn->real_escape_string($email);
-        $feedback = $conn->real_escape_string($feedback);
+		$feedback = $conn->real_escape_string($feedback);
+		$subject = $conn->real_escape_string($subject);
         $phone = $conn->real_escape_string($phone);
         $subject = $conn->real_escape_string($subject);
         	//write to the table `teamon`;
@@ -132,18 +126,18 @@ if($_POST){
             if($saved){
                     header('Location:' . $_SERVER['PHP_SELF'] . '?success=OK'); 
             }else{ 
-				$error['database'] = "Error when saving"; 
+				$error['database'] = "Error when saving"; //display error if faill;
 			}
 
     } else { //testing input one by one;
         if(strlen($name) == 0){
-            $error['name'] = 'Error - Please fill in all name field!';
+            $error['name'] = 'Error - Please fill in name field!';
         }
         if(strlen($name) > 70){
             $error['name'] = 'Error - Max charakters reached!';
         }
         if(strlen($email) == 0){
-            $error['email'] = 'Error - Please fill in all email field!';
+            $error['email'] = 'Error - Please fill in email field!';
         }
         if(strlen($phone) == 0){
             $error['phone'] = 'Error - Please fill in phone field!';
@@ -164,11 +158,10 @@ if(strlen($success) == 0) {
 ?>
 		<section class="contact-us">
 			<h2> CONTACT FORM</h2>
-		
 				<div class="contact-form">
 
 					<div class="input-fields">
-						<form method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>" onsubmit="rel=modal:open">
+						<form method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 								<span class="popup"><?php echo $error['name']; ?></span></span><input type="text" class="input" name="name" placeholder="Name" 
 									value="<?php echo $name;?>" />
 								<span class="popup"><?php echo $error['email']; ?></span></span><input type="email" class="input" name="email" placeholder="Email Address"
@@ -192,12 +185,8 @@ if(strlen($success) == 0) {
 <?php 
   } else {
 	header('location: contact.php');
- }
+  }
 ?>	  
-<div id="ex1" class="modal">
-  <p>Thanks for clicking. That felt good.</p>
-  <a href="#" rel="modal:close">Close</a>
-</div>
 		<!--Hamzat's code ends here-->
 		
 		<!--Povilas form start-->
