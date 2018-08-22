@@ -92,8 +92,7 @@ if(strlen($success) == 0) {
             value="<?php echo $name;?>" />
         Email <span><?php echo $error['email']; ?></span><input type="email" name="email" placeholder="Add Email"
             value="<?php echo $email;?>"/>
-        Feedback <span><?php echo $error['feedback']; ?></span><textarea name="feedback" placeholder="Add Your feedback">
-            <?php echo $feedback;?></textarea>
+        Feedback <span><?php echo $error['feedback']; ?></span><textarea name="feedback" placeholder="Add Your feedback"><?php echo $feedback;?></textarea>
         Question: How many angles have a rectangle.  <span><?php echo  $error['check']; ?></span><input type="text" name="check" />
         <input type="text" id="website" name="website"/>
         <span><?php echo $error['database']; ?></span>
