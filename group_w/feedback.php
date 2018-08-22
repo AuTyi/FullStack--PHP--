@@ -32,16 +32,16 @@ if($_POST){
 
     } else { //cheking input one by one
         if(strlen($name) == 0){
-            $error['name'] = 'Error - Please fill in all required fields!';
+            $error['name'] = 'Error - Please fill name field!';
         }
         if(strlen($name) > 70){
             $error['name'] = 'Error - Max charakters reached!';
         }
         if(strlen($email) == 0){
-            $error['email'] = 'Error - Please fill in all required fields!';
+            $error['email'] = 'Error - Please fill in email field!';
         }
         if(strlen($feedback) == 0){
-            $error['feedback'] = 'Error - Please fill in all required fields!';
+            $error['feedback'] = 'Error - Please fill in feedback field!';
         }
         if($check !== 4){
             $error['check'] = 'Error - Please write correct answer!';
@@ -93,7 +93,7 @@ if(strlen($success) == 0) {
         Email <span><?php echo $error['email']; ?></span><input type="email" name="email" placeholder="Add Email"
             value="<?php echo $email;?>"/>
         Feedback <span><?php echo $error['feedback']; ?></span><textarea name="feedback" placeholder="Add Your feedback"><?php echo $feedback;?></textarea>
-        Question: How many angles have a rectangle.  <span><?php echo  $error['check']; ?></span><input type="text" name="check" />
+        Security question: How many angles have a rectangle.  <span><?php echo  $error['check']; ?></span><input type="text" name="check" />
         <input type="text" id="website" name="website"/>
         <span><?php echo $error['database']; ?></span>
         <input type="submit" value="Save"/>
