@@ -18,9 +18,9 @@ if($_POST){
                 die("Connection failed: " . $conn->connect_error);
                 }
         //no sql injection        
-        $title = $conn->real_escape_string($title);
-		$author = $conn->real_escape_string($author);
-		$content = $conn->real_escape_string($content);
+        $name = $conn->real_escape_string($name);
+		$email = $conn->real_escape_string($email);
+		$feedback = $conn->real_escape_string($feedback);
         
         //Write to the table 
         $saved = $conn->query("INSERT INTO `feedback`(`name`, `email`, `feedback`) VALUES ('$name','$email','$feedback')");
@@ -60,7 +60,7 @@ if(strlen($success) == 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--<link rel="stylesheet" type="text/css" media="screen" href="style.css" />-->
     <style>
-                body {
+        body {
             margin: 50px;
         }
         input[type=text], input[type=email], textarea {
