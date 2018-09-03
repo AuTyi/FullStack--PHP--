@@ -48,7 +48,7 @@ if(nameValid($name) && emailValid($email) && passwordValid($password) && passwor
         VALUES ('$name','$email','$encrypt_password')");
     
     //mysqli_query($conn, $saved);
-  	$_SESSION['username'] = $name;
+  	$_SESSION['username'] = $email;
   	//$_SESSION['success'] = "You are now logged in";
   	header('location: info.php');
 }
