@@ -11,7 +11,7 @@ include('include/config.php');//connect to database
   	header("location: login.php");
   }
 
-  //get user name from db to display;
+  //get name from db to display;
   $em = $_SESSION['username'];
   $result = $conn->query("SELECT `name` FROM `users` WHERE `email` = '$em' ");
   if($result->num_rows > 0){

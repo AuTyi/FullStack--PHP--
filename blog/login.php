@@ -1,10 +1,8 @@
 <?php
-include('include/config.php');//connect to database
+session_start(); //start session to set cookey;
 
-$name = "";
 $email = checkValue($_POST,'email');
 $password = checkValue($_POST,'password');
-//$remember = isset($_POST['remember']) ? $_POST['remember'] : '';
 $login_error = '';
 
 function checkValue($postArray,$key){
@@ -34,14 +32,17 @@ function onLogin($user,$id,$conn) {
     $cookie = $user . ':' . $token;
     $mac = hash_hmac('sha256', $cookie, $secret_key);
     $cookie .= ':' . $mac;
-    setcookie('rememberme', $cookie, time() + (87600 * 14)); //remember user for two weeks;
+    setcookie('rememberme', $cookie, time() + (87600 * 30));
 	}
 
 
 if($_POST && emailValid($email)){
+    
+    include('connect.php');// connect to the database;
+
        
     $email = $conn->real_escape_string($email);
-    $result = $conn->query("SELECT * FROM `users` WHERE `email`='$email' ");
+    $result = $conn->query("SELECT * FROM `users` WHERE `email`='$email'");
 
     print $conn->error;
 
@@ -49,53 +50,62 @@ if($_POST && emailValid($email)){
         $user = $result->fetch_assoc();
         if(password_verify($password,$user['password'])){
             $_SESSION['username'] = $email;
-
-            if (isset($_POST['remember'])) { //rememebr me cheked 
             onLogin($email,$user['id'], $conn);
-            }
-
-            if (mysqli_num_rows($result) == 1) {
-            $_SESSION['username'] = $email;
-            $_SESSION['success'] = "You are now logged in";
-            header('location: info.php');   
-            }
-
         }else {
-            $login_error = "Error in login - check your password";
+            $login_error = "Error in login1";
         }
     }else {
-        $login_error = "Error in login - check your name or password";
-    
+        $login_error = "Error in login2";
     }
-    
 
 }
 
 ?>
 
-<?php require_once('include/header.php') ?>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
     <title>User -> login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="style.css" />-->
+    <style>
+                body {
+            margin: 50px;
+        }
+        input[type=text], textarea, input[type=password] {
+            display: block;
+            min-width: 30%;
+            margin: 20px 0;
+            padding: 5px;
+        }
+        input[type=submit] {
+            padding:5px 15px; 
+            background:#ccc; 
+            border:0 none;
+            cursor:pointer;
+            border-radius: 5px; 
+        }
+        span {
+            color: red;
+           
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <!-- container - wraps whole page -->
-	<div class="container">
     <h2>User login page</h2>
  
     <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
         
-        <label>Email </label><span><?php print ($_POST && !emailValid($email)) ? "Error username" : ""; ?></span>
+        Email <span><?php print ($_POST && !emailValid($email)) ? "Error ussername" : ""; ?></span>
             <input type="text" name="email" 
             value="<?php echo $email; ?>"/>
 						        
-		<label>Password </label><input type="password" name="password" />
-       	<input type="submit" value="Login"/>
-        <input type="checkbox" name="remember" value="yes"/> <label>Remember me</label><br>
-        <p>
-				Not yet a member? <a href="register.php">Sign up</a>
-			</p>
-        <span><?php print $login_error; ?></span>
+		Password <input type="password" name="password" />
+        <?php print $login_error; ?>
+		<input type="submit" value="Login"/>
     </form>
-   
 </body>
 </html>
+<a href="logout.php">Logout</a>

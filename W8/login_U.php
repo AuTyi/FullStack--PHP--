@@ -1,8 +1,7 @@
 <?php
 include('include/config.php');//connect to database
 
-$name = "";
-$email = checkValue($_POST,'email');
+$name = checkValue($_POST,'name');
 $password = checkValue($_POST,'password');
 //$remember = isset($_POST['remember']) ? $_POST['remember'] : '';
 $login_error = '';
@@ -11,8 +10,8 @@ function checkValue($postArray,$key){
 	return isset($postArray[$key]) ? $postArray[$key] : null;
 }
 
-function emailValid($email){
-	return strpos($email, '@') > 0;
+function emailValid($name){
+	return strlen($name) > 0;
 }
 
 function GenerateRandomToken(){ //will generate token;
@@ -38,26 +37,26 @@ function onLogin($user,$id,$conn) {
 	}
 
 
-if($_POST && emailValid($email)){
+if($_POST && emailValid($name)){
        
-    $email = $conn->real_escape_string($email);
-    $result = $conn->query("SELECT * FROM `users` WHERE `email`='$email' ");
+    $email = $conn->real_escape_string($nime);
+    $result = $conn->query("SELECT * FROM `users` WHERE `name`='$name'");
 
     print $conn->error;
 
     if($result->num_rows > 0){
         $user = $result->fetch_assoc();
         if(password_verify($password,$user['password'])){
-            $_SESSION['username'] = $email;
+            $_SESSION['username'] = $name;
 
             if (isset($_POST['remember'])) { //rememebr me cheked 
-            onLogin($email,$user['id'], $conn);
+            onLogin($name,$user['id'], $conn);
             }
 
             if (mysqli_num_rows($result) == 1) {
-            $_SESSION['username'] = $email;
+            $_SESSION['name'] = $name;
             $_SESSION['success'] = "You are now logged in";
-            header('location: info.php');   
+            header('location: blog.php');   
             }
 
         }else {
@@ -84,9 +83,9 @@ if($_POST && emailValid($email)){
  
     <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
         
-        <label>Email </label><span><?php print ($_POST && !emailValid($email)) ? "Error username" : ""; ?></span>
-            <input type="text" name="email" 
-            value="<?php echo $email; ?>"/>
+        <label>Name </label><span><?php print ($_POST && !emailValid($name)) ? "Error username" : ""; ?></span>
+            <input type="text" name="name" 
+            value="<?php echo $name; ?>"/>
 						        
 		<label>Password </label><input type="password" name="password" />
        	<input type="submit" value="Login"/>
@@ -96,6 +95,6 @@ if($_POST && emailValid($email)){
 			</p>
         <span><?php print $login_error; ?></span>
     </form>
-   
+    </div>
 </body>
 </html>

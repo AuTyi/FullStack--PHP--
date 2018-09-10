@@ -96,6 +96,6 @@ if($_POST && emailValid($email)){
 			</p>
         <span><?php print $login_error; ?></span>
     </form>
-   
+    </div>
 </body>
 </html>

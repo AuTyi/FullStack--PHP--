@@ -1,6 +1,6 @@
 <?php 
-include('include/config.php');//connect to database
-  
+  session_start(); 
+
   if (!isset($_SESSION['username'])) {
   	$_SESSION['msg'] = "You must log in first";
   	header('location: login.php');
@@ -10,15 +10,6 @@ include('include/config.php');//connect to database
   	unset($_SESSION['username']);
   	header("location: login.php");
   }
-
-  //get user name from db to display;
-  $em = $_SESSION['username'];
-  $result = $conn->query("SELECT `name` FROM `users` WHERE `email` = '$em' ");
-  if($result->num_rows > 0){
-	$user = $result->fetch_assoc();
-	$_SESSION['us'] = $user['name'];
-  }
- 
 ?>
 <?php require_once('include/header.php') ?>
 
@@ -45,8 +36,7 @@ include('include/config.php');//connect to database
 
     <!-- logged in user information -->
     <?php  if (isset($_SESSION['username'])) : ?>
-    	<p>Welcome <strong><?php echo $_SESSION['us']; ?></strong></p>
-		
+    	<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
     	<p> <a href="logout.php?logout='1'" style="color: red;">Logout</a> </p>
     <?php endif ?>
 </div>

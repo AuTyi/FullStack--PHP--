@@ -1,7 +1,6 @@
 <?php
 include('include/config.php');//connect to database
 
-$name = "";
 $email = checkValue($_POST,'email');
 $password = checkValue($_POST,'password');
 //$remember = isset($_POST['remember']) ? $_POST['remember'] : '';
@@ -41,7 +40,7 @@ function onLogin($user,$id,$conn) {
 if($_POST && emailValid($email)){
        
     $email = $conn->real_escape_string($email);
-    $result = $conn->query("SELECT * FROM `users` WHERE `email`='$email' ");
+    $result = $conn->query("SELECT * FROM `users` WHERE `email`='$email'");
 
     print $conn->error;
 
@@ -55,9 +54,9 @@ if($_POST && emailValid($email)){
             }
 
             if (mysqli_num_rows($result) == 1) {
-            $_SESSION['username'] = $email;
+            $_SESSION['name'] = $email;
             $_SESSION['success'] = "You are now logged in";
-            header('location: info.php');   
+            header('location: blog.php');   
             }
 
         }else {
@@ -96,6 +95,6 @@ if($_POST && emailValid($email)){
 			</p>
         <span><?php print $login_error; ?></span>
     </form>
-   
+    </div>
 </body>
 </html>
